@@ -16,7 +16,7 @@ const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 
 if (!projectId) throw new Error("Project ID is not defined");
 
-export const networks = [mainnet, arbitrum];
+export const mNetworks = [mainnet, arbitrum];
 
 export const wagmiAdapter = new WagmiAdapter({
   storage: createStorage({
@@ -24,7 +24,7 @@ export const wagmiAdapter = new WagmiAdapter({
   }),
   ssr: true,
   projectId,
-  networks,
+  networks: mNetworks,
 });
 
 // Create modal
@@ -44,7 +44,7 @@ export const modal = createAppKit({
   excludeWalletIds: [
     "a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393", // Phantom
   ],
-  networks,
+  networks: [mainnet, arbitrum],
 });
 
 export default function Web3ModalProvider({
