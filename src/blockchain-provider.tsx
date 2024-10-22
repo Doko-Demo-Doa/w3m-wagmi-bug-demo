@@ -6,7 +6,7 @@ import { State, WagmiProvider } from "wagmi";
 
 import { cookieStorage, createStorage } from "@wagmi/core";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
-import { mainnet, arbitrum } from "@reown/appkit/networks";
+import { mainnet, arbitrum, AppKitNetwork } from "@reown/appkit/networks";
 import { createAppKit } from "@reown/appkit/react";
 
 // Setup queryClient
@@ -16,7 +16,10 @@ const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
 
 if (!projectId) throw new Error("Project ID is not defined");
 
-export const mNetworks = [mainnet, arbitrum];
+export const networks = [mainnet, arbitrum] as [
+  AppKitNetwork,
+  ...AppKitNetwork[]
+];
 
 export const wagmiAdapter = new WagmiAdapter({
   storage: createStorage({
@@ -24,7 +27,7 @@ export const wagmiAdapter = new WagmiAdapter({
   }),
   ssr: true,
   projectId,
-  networks: mNetworks,
+  networks,
 });
 
 // Create modal
@@ -44,7 +47,7 @@ export const modal = createAppKit({
   excludeWalletIds: [
     "a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393", // Phantom
   ],
-  networks: [mainnet, arbitrum],
+  networks,
 });
 
 export default function Web3ModalProvider({
