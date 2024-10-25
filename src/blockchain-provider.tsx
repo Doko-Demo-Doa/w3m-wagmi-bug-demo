@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import { State, WagmiProvider } from "wagmi";
+import { Config, State, WagmiProvider } from "wagmi";
 
 import { cookieStorage, createStorage } from "@wagmi/core";
 import { WagmiAdapter } from "@reown/appkit-adapter-wagmi";
@@ -29,6 +29,8 @@ export const wagmiAdapter = new WagmiAdapter({
   projectId,
   networks,
 });
+
+const mConfig = wagmiAdapter.wagmiConfig as Config;
 
 // Create modal
 export const modal = createAppKit({
@@ -58,10 +60,7 @@ export default function Web3ModalProvider({
   initialState?: State;
 }) {
   return (
-    <WagmiProvider
-      config={wagmiAdapter.wagmiConfig}
-      initialState={initialState}
-    >
+    <WagmiProvider config={mConfig} initialState={initialState}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
   );
